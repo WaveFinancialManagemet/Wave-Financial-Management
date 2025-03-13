@@ -63,12 +63,21 @@
     }
     @media (max-width: 480px) {
       .top-bar {
-        padding: 6px;
+        padding: 4px;
       }
       .top-bar a {
-        font-size: 10px;
-        padding: 3px 4px;
-        margin: 0 2px;
+        font-size: 12px;
+        padding: 4px 8px;
+        margin: 0 5px;
+      }
+      .top-bar input[type="text"] {
+        padding: 4px; /* Reduce padding */
+        font-size: 5px; /* 3x smaller than 16px */
+        width: 50px; /* Reduce width */
+      }
+      .top-bar button {
+        padding: 4px 8px;
+        font-size: 12px;
       }
     }
     /* Content Styles */
