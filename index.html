@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wave Financial Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+    }
+    /* Top Bar Styles */
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    /* Responsive Top Bar */
+    @media (max-width: 480px) {
+      .top-bar {
+        padding: 6px;
+      }
+      .top-bar a {
+        font-size: 14px;
+        padding: 6px 10px;
+        margin: 0 5px;
+      }
+    }
+    /* Content Padding to avoid Top Bar overlap */
+    .content {
+      padding-top: 80px;
+      margin: 20px;
+    }
+    /* Header and Investment Info */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .investment-info {
+      margin: 20px auto;
+      max-width: 800px;
+      line-height: 1.6;
+    }
+    .investment-info h2 {
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="stock.html">Stocks</a>
+    
+    <a href="subscriptions.html">Subscriptions</a>
+  </div>
+  <div class="content">
+    <header>
+      <img src="BCDA5ADD-DC81-45DB-AA3D-19E8EBD86044_1_201_a.jpeg" alt="Wave Financial Management" height="100" width="400"/>
+    </header>
+    <section class="investment-info">
+      <h2>Why Invest in Stocks?</h2>
+      <p>Investing in stocks is a powerful way to grow your wealth over time. It allows you to participate in the success of leading companies, benefit from compound growth, and diversify your portfolio. With the right strategy and expert guidance, you can build a secure financial future.</p>
+      <h2>How We Can Help You Succeed</h2>
+      <p>At Wave Financial Management, our experienced team uses in‐depth market analysis and tailored investment strategies to help you navigate the stock market. We provide personalized advice and timely stock recommendations to maximize your returns and guide you every step of the way.</p>
+    </section>
+  </div>
+</body>
+</html>
