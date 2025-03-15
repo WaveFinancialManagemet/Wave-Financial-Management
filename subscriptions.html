@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wave Financial Management - Subscriptions</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    /* Top Bar Styles */
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    @media (max-width: 480px) {
+      .top-bar {
+        padding: 6px;
+      }
+      .top-bar a {
+        font-size: 14px;
+        padding: 6px 10px;
+        margin: 0 5px;
+      }
+    }
+    /* Container Styles */
+    .container {
+      max-width: 800px;
+      margin: 100px auto 20px auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #333;
+    }
+    .description {
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #555;
+    }
+    .description ul {
+      list-style: disc inside;
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    /* Subscription Plans Styles */
+    .subscription-plans {
+      margin-bottom: 30px;
+    }
+    .subscription-plans h2 {
+      color: #003366;
+      margin-bottom: 20px;
+    }
+    .plan {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+      position: relative;
+    }
+    .plan h3 {
+      margin-top: 0;
+      color: #003366;
+    }
+    .plan ul {
+      list-style: disc inside;
+      padding-left: 20px;
+    }
+    .subscribe-button {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .subscribe-button:hover {
+      background-color: #0056b3;
+    }
+    /* Contact Form Styles */
+    .contact {
+      text-align: center;
+    }
+    .contact input[type="email"] {
+      width: 70%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .contact button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .contact button:hover {
+      background-color: #0056b3;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+  <!-- Include SMTP.js -->
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="stock.html">Stocks</a>
+    <a href="subscriptions.html">Subscriptions</a>
+  </div>
+  <div class="container">
+    <header>
+      <img src="BCDA5ADD-DC81-45DB-AA3D-19E8EBD86044_1_201_a.jpeg" alt="Wave Financial Management" height="100" width="400"/>
+      <h1>Wave Financial Management</h1>
+    </header>
+    <section class="description">
+      <p>At Wave Financial Management, we specialize in transforming your financial future by investing your money with precision and care. Our expert team uses in‐depth market research and diversified portfolio strategies to help you achieve:</p>
+      <ul>
+        <li><strong>Personalized Investment Strategies:</strong> Tailored plans that suit your unique financial goals.</li>
+        <li><strong>Risk Management:</strong> Proactive measures to protect and grow your investments.</li>
+        <li><strong>Diversification:</strong> Spreading your investments across various asset classes to minimize risk.</li>
+        <li><strong>Transparent Reporting:</strong> Regular updates and clear communication to keep you informed.</li>
+        <li><strong>Long-Term Wealth Growth:</strong> Sustainable strategies to secure your financial future.</li>
+      </ul>
+      <p>Join us and ride the waves of the financial market towards a brighter, more secure future.</p>
+    </section>
+    <section class="subscription-plans">
+      <h2>Our Investment Programs</h2>
+      <div class="plan">
+        <h3>Wave Financial Management Plus</h3>
+        <p><strong>$35/month or $399/year</strong></p>
+        <ul>
+          <li>Access to a curated stock list.</li>
+          <li>1 stock recommendation to hold for a year.</li>
+          <li>2 new stock picks every month.</li>
+          <li>Cancel anytime.</li>
+        </ul>
+        <button class="subscribe-button" onclick="subscribePlan('Wave Financial Management Plus', '35', '399')">Subscribe</button>
+      </div>
+      <div class="plan">
+        <h3>Wave Financial Management Premium</h3>
+        <p><strong>$65/month or $649/year</strong></p>
+        <ul>
+          <li>3 long-term stock recommendations (1-year hold).</li>
+          <li>5 new stock picks every month.</li>
+          <li>Annual list of top ETFs and Index Funds.</li>
+          <li>Cancel anytime.</li>
+        </ul>
+        <button class="subscribe-button" onclick="subscribePlan('Wave Financial Management Premium', '65', '649')">Subscribe</button>
+      </div>
+      <div class="plan">
+        <h3>Wave Financial Management Elite</h3>
+        <p><strong>$99/month or $999/year</strong></p>
+        <ul>
+          <li>5 long-term stock recommendations (1-year hold).</li>
+          <li>5 new stock picks every 10 days.</li>
+          <li>Annual list of top ETFs and Index Funds.</li>
+          <li>Access to a personal financial advisor.</li>
+          <li>Cancel anytime.</li>
+        </ul>
+        <button class="subscribe-button" onclick="subscribePlan('Wave Financial Management Elite', '99', '999')">Subscribe</button>
+      </div>
+    </section>
+    <section class="contact">
+      <form id="posterForm">
+        <input type="email" id="userEmail" placeholder="Enter your email" required>
+        <button type="submit">Submit</button>
+      </form>
+      <p id="message"></p>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+        emailjs.init("K8W5uff3H-Q0xoJa9"); // Replace with your EmailJS User ID
+    })();
+    document.getElementById("posterForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var userEmail = document.getElementById("userEmail").value;
+        emailjs.send("service_37gwvbg", "template_ghaclnv", {
+            to_email: userEmail,
+            poster_link: "https://drive.google.com/file/d/1vaKCVnz-H2jKdHwc8BGg_m0aHtMK8fxP/view?usp=sharing" // Replace with your actual poster link
+        })
+        .then(function(response) {
+            document.getElementById("message").innerText = "Thank you! Your download is ready.";
+        }, function(error) {
+            document.getElementById("message").innerText = "Failed to send email. Try again.";
+        });
+    });
+
+    function subscribePlan(planName, monthlyRate, yearlyRate) {
+      // Redirect to subscribe.html with plan details as URL parameters
+      const url = "subscribe.html?plan=" + encodeURIComponent(planName) +
+                  "&monthlyRate=" + encodeURIComponent(monthlyRate) +
+                  "&yearlyRate=" + encodeURIComponent(yearlyRate);
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>

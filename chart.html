@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Global Styles */
+    body {
+      background-color: white;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    /* Top Bar Styles */
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    @media (max-width: 480px) {
+      .top-bar {
+        padding: 6px;
+      }
+      .top-bar a {
+        font-size: 14px;
+        padding: 6px 10px;
+        margin: 0 5px;
+      }
+    }
+    /* Content Padding */
+    .content {
+      padding-top: 80px;
+    }
+    .widget-container {
+      margin: 20px auto;
+      max-width: 1000px;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    // Retrieve the 'symbol' query parameter (default to NASDAQ:AAPL)
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    var stockSymbol = getParameterByName('symbol') || 'NASDAQ:AAPL';
+    document.title = stockSymbol + " - Stock Dashboard";
+    // For the financials widget, remove the exchange prefix if present.
+    var financialSymbol = stockSymbol;
+    if (stockSymbol.indexOf(':') !== -1) {
+      financialSymbol = stockSymbol.split(':')[1];
+    }
+  </script>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="stock.html">Stocks</a>
+    
+    <a href="subscriptions.html">Subscriptions</a>
+  </div>
+  <div class="content">
+    <h1 style="color: #003366;">Stock Dashboard: <span id="stockTitle"></span></h1>
+    <script>
+      document.getElementById('stockTitle').textContent = stockSymbol;
+    </script>
+    
+    <!-- TradingView Advanced Chart Widget -->
+    <div class="widget-container" id="chartContainer"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+      new TradingView.widget({
+        "width": "100%",
+        "height": 500,
+        "symbol": stockSymbol,
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "withdateranges": true,
+        "container_id": "chartContainer"
+      });
+    </script>
+    
+    <!-- TradingView Financials Widget -->
+    <div class="widget-container" id="financialsContainer"></div>
+    <script>
+      var financialsWidgetConfig = {
+        "symbol": financialSymbol,
+        "width": "100%",
+        "height": 600,
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "locale": "en"
+      };
+      var financialsScript = document.createElement("script");
+      financialsScript.type = "text/javascript";
+      financialsScript.async = true;
+      financialsScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-financials.js";
+      financialsScript.text = JSON.stringify(financialsWidgetConfig);
+      document.getElementById("financialsContainer").appendChild(financialsScript);
+    </script>
+  </div>
+</body>
+</html>

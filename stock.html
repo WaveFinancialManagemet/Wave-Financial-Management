@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wave Financial Management - Stocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+    /* Top Bar Styles */
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    .top-bar input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+    .top-bar button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-left: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #0059b3;
+      color: #fff;
+      transition: background 0.3s;
+    }
+    .top-bar button:hover {
+      background-color: #0073e6;
+    }
+    .search-container {
+      position: relative;
+      display: inline-block;
+    }
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1001;
+    }
+    .suggestion-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .suggestion-item:hover {
+      background: #f0f0f0;
+    }
+    @media (max-width: 480px) {
+      .top-bar {
+        padding: 4px;
+      }
+      .top-bar a {
+        font-size: 12px;
+        padding: 4px 8px;
+        margin: 0 5px;
+      }
+      .top-bar input[type="text"] {
+        padding: 4px;
+        font-size: 12px;
+        width: 50px;
+      }
+      .top-bar button {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+    }
+    /* Content Styles */
+    .content {
+      padding-top: 80px;
+      text-align: center;
+      margin: 20px;
+    }
+    /* Popular Stocks Section */
+    .popular-stocks {
+      margin: 40px auto;
+      max-width: 800px;
+      text-align: left;
+    }
+    .popular-stocks h2 {
+      color: #003366;
+      margin-bottom: 20px;
+    }
+    .stock-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .stock-card {
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px;
+      flex: 1 1 200px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .stock-card h3 {
+      margin-top: 0;
+      color: #003366;
+    }
+  </style>
+  <script>
+    // We'll store the complete list of stocks fetched from the API here.
+    var stockList = [];
+
+    // Redirect to chart.html with the stock symbol as a query parameter.
+    function searchStock() {
+      var query = document.getElementById("searchInput").value.toUpperCase().trim();
+      if (query === "") {
+        alert("Please enter a stock symbol.");
+        return;
+      }
+      window.location.href = "chart.html?symbol=" + encodeURIComponent(query);
+    }
+
+    // Update suggestions based on input.
+    function updateSuggestions() {
+      var query = document.getElementById("searchInput").value.toUpperCase().trim();
+      var suggestionsContainer = document.getElementById("suggestions");
+      suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+      
+      if (query.length > 0) {
+        // Filter the complete stockList to include only those stocks whose symbols start with the query.
+        var filteredStocks = stockList.filter(function(stock) {
+          return stock.symbol.startsWith(query);
+        });
+        // Limit to maximum 3 suggestions.
+        filteredStocks.slice(0, 3).forEach(function(stock) {
+          var div = document.createElement("div");
+          div.className = "suggestion-item";
+          div.innerText = stock.symbol + " - " + stock.name;
+          div.onclick = function() {
+            window.location.href = "chart.html?symbol=" + encodeURIComponent(stock.symbol);
+          };
+          suggestionsContainer.appendChild(div);
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      // Fetch a complete list of stocks from Financial Modeling Prep.
+      // The API returns an array of objects that include at least the "symbol" and "name" properties.
+      fetch('https://financialmodelingprep.com/api/v3/stock/list?apikey=demo')
+        .then(response => response.json())
+        .then(data => {
+          stockList = data;
+        })
+        .catch(err => console.error('Error fetching stock list: ', err));
+
+      document.getElementById("searchInput").addEventListener("input", updateSuggestions);
+      document.getElementById("searchInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          searchStock();
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="stock.html">Stocks</a>
+    <a href="subscriptions.html">Subscriptions</a>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter stock symbol (e.g., AAPL)">
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+    <button onclick="searchStock()">Search</button>
+  </div>
+  
+  <div class="content">
+    <img src="BCDA5ADD-DC81-45DB-AA3D-19E8EBD86044_1_201_a.jpeg" alt="Wave Financial Management" height="100" width="400"/>
+    <h1>Welcome to Wave Financial Management</h1>
+    <p>Use the search bar above to view the chart for any stock.</p>
+   
+    <!-- Popular Stocks Section -->
+    <section class="popular-stocks">
+      <h2>Popular Stocks</h2>
+      <div class="stock-cards">
+        <div class="stock-card">
+          <h3>Apple Inc. (AAPL)</h3>
+          <p>Leading technology company known for innovation and strong financials.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Tesla Inc. (TSLA)</h3>
+          <p>Innovative electric vehicle and clean energy company.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Amazon.com Inc. (AMZN)</h3>
+          <p>E-commerce giant with a dominant presence in cloud computing.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Microsoft Corp. (MSFT)</h3>
+          <p>Global leader in software, services, and cloud computing solutions.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
