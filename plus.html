@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wave Financial Management - Plus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff; color: #333; }
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    @media (max-width: 480px) {
+      .top-bar { padding: 6px; }
+      .top-bar a { font-size: 14px; padding: 6px 10px; margin: 0 5px; }
+    }
+    .content { padding-top: 80px; text-align: center; margin: 20px; }
+  </style>
+  <script>
+    function checkAccess(plan) {
+      var unlocked = localStorage.getItem(plan + 'Unlocked');
+      if (unlocked === 'true') {
+        return true;
+      } else {
+        alert('This page is locked. Please subscribe to unlock.');
+        return false;
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="top-bar">
+      <a href="index.html">Home</a>
+      <a href="stock.html">Stocks</a>
+      <a href="subscriptions.html">Subscriptions</a>
+      <a href="plus.html" onclick="return checkAccess('plus');">Plus</a>
+      <a href="premium.html" onclick="return checkAccess('premium');">Premium</a>
+      <a href="elite.html" onclick="return checkAccess('elite');">Elite</a>
+  </div>
+  <div class="content">
+    <h1>Welcome to the Plus Page</h1>
+    <p>This content is available exclusively for Plus subscribers.</p>
+  </div>
+</body>
+</html>

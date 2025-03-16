@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wave Financial Management - Stocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; color: #333; }
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    @media (max-width: 480px) {
+      .top-bar { padding: 4px; }
+      .top-bar a { font-size: 12px; padding: 4px 8px; margin: 0 5px; }
+    }
+    .content { padding-top: 80px; text-align: center; margin: 20px; }
+    .search-container { position: relative; display: inline-block; }
+    .suggestions { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd; max-height: 200px; overflow-y: auto; z-index: 1001; }
+    .suggestion-item { padding: 8px; cursor: pointer; }
+    .suggestion-item:hover { background: #f0f0f0; }
+  </style>
+  <script>
+    function checkAccess(plan) {
+      var unlocked = localStorage.getItem(plan + 'Unlocked');
+      if (unlocked === 'true') {
+        return true;
+      } else {
+        alert('This page is locked. Please subscribe to unlock.');
+        return false;
+      }
+    }
+    
+    var stockList = [];
+    function searchStock() {
+      var query = document.getElementById("searchInput").value.toUpperCase().trim();
+      if (query === "") {
+        alert("Please enter a stock symbol.");
+        return;
+      }
+      window.location.href = "chart.html?symbol=" + encodeURIComponent(query);
+    }
+    
+    function updateSuggestions() {
+      var query = document.getElementById("searchInput").value.toUpperCase().trim();
+      var suggestionsContainer = document.getElementById("suggestions");
+      suggestionsContainer.innerHTML = "";
+      if (query.length > 0) {
+        var filteredStocks = stockList.filter(function(stock) {
+          return stock.symbol.startsWith(query);
+        });
+        filteredStocks.slice(0, 3).forEach(function(stock) {
+          var div = document.createElement("div");
+          div.className = "suggestion-item";
+          div.innerText = stock.symbol + " - " + stock.name;
+          div.onclick = function() {
+            window.location.href = "chart.html?symbol=" + encodeURIComponent(stock.symbol);
+          };
+          suggestionsContainer.appendChild(div);
+        });
+      }
+    }
+    
+    window.addEventListener('DOMContentLoaded', function() {
+      fetch('https://financialmodelingprep.com/api/v3/stock/list?apikey=demo')
+        .then(response => response.json())
+        .then(data => { stockList = data; })
+        .catch(err => console.error('Error fetching stock list: ', err));
+      document.getElementById("searchInput").addEventListener("input", updateSuggestions);
+      document.getElementById("searchInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          searchStock();
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="top-bar">
+      <a href="index.html">Home</a>
+      <a href="stock.html">Stocks</a>
+      <a href="subscriptions.html">Subscriptions</a>
+      <a href="plus.html" onclick="return checkAccess('plus');">Plus</a>
+      <a href="premium.html" onclick="return checkAccess('premium');">Premium</a>
+      <a href="elite.html" onclick="return checkAccess('elite');">Elite</a>
+  </div>
+  <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter stock symbol (e.g., AAPL)">
+      <div id="suggestions" class="suggestions"></div>
+  </div>
+  <button onclick="searchStock()">Search</button>
+  
+  <div class="content">
+    <img src="BCDA5ADD-DC81-45DB-AA3D-19E8EBD86044_1_201_a.jpeg" alt="Wave Financial Management" height="100" width="400"/>
+    <h1>Welcome to Wave Financial Management</h1>
+    <p>Use the search bar above to view the chart for any stock.</p>
+    <section class="popular-stocks">
+      <h2>Popular Stocks</h2>
+      <div class="stock-cards">
+        <div class="stock-card">
+          <h3>Apple Inc. (AAPL)</h3>
+          <p>Leading technology company known for innovation and strong financials.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Tesla Inc. (TSLA)</h3>
+          <p>Innovative electric vehicle and clean energy company.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Amazon.com Inc. (AMZN)</h3>
+          <p>E-commerce giant with a dominant presence in cloud computing.</p>
+        </div>
+        <div class="stock-card">
+          <h3>Microsoft Corp. (MSFT)</h3>
+          <p>Global leader in software, services, and cloud computing solutions.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

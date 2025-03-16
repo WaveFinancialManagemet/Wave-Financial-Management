@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Wave Financial Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; }
+    /* Top Bar Styles */
+    .top-bar {
+      background-color: #003366;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .top-bar a {
+      color: #fff;
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .top-bar a:hover {
+      background-color: #0059b3;
+      border-color: #fff;
+    }
+    @media (max-width: 480px) {
+      .top-bar { padding: 6px; }
+      .top-bar a { font-size: 14px; padding: 6px 10px; margin: 0 5px; }
+    }
+    /* Content Styles */
+    .content {
+      padding-top: 80px;
+      margin: 20px auto;
+      max-width: 900px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .investment-info h2 {
+      color: #003366;
+      margin-top: 30px;
+      text-indent: 4ch;
+    }
+    .investment-info p, .investment-info ul, .investment-info li {
+      text-align: justify;
+      text-indent: 4ch;
+      margin-bottom: 15px;
+    }
+    .investment-info ul {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    .graphic {
+      display: block;
+      margin: 20px auto;
+      max-width: 100%;
+    }
+  </style>
+  <script>
+    function checkAccess(plan) {
+      var unlocked = localStorage.getItem(plan + 'Unlocked');
+      if (unlocked === 'true') {
+        return true;
+      } else {
+        alert('This page is locked. Please subscribe to unlock.');
+        return false;
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="top-bar">
+      <a href="index.html">Home</a>
+      <a href="stock.html">Stocks</a>
+      <a href="subscriptions.html">Subscriptions</a>
+      <a href="plus.html" onclick="return checkAccess('plus');">Plus</a>
+      <a href="premium.html" onclick="return checkAccess('premium');">Premium</a>
+      <a href="elite.html" onclick="return checkAccess('elite');">Elite</a>
+  </div>
+  <div class="content">
+    <header>
+      <img src="BCDA5ADD-DC81-45DB-AA3D-19E8EBD86044_1_201_a.jpeg" alt="Wave Financial Management Logo" class="graphic" height="100" width="400"/>
+    </header>
+    <section class="investment-info">
+      <h2>About Wave Financial Management</h2>
+      <p>
+         Wave Financial Management is a leading firm in financial advising and stock market assistance.  
+         With decades of experience, our experts deliver tailored investment strategies that drive exceptional growth.
+      </p>
+      <p>
+         Our mission is to empower individuals and organizations by offering clear, reliable, and forward-thinking financial guidance.
+      </p>
+      
+      <h2>Our Comprehensive Services</h2>
+      <p>
+         We provide end-to-end support—from portfolio analysis and risk assessment to continuous market monitoring and timely advice.
+      </p>
+      <p>
+         Our expert insights and innovative research distinguish us in the competitive financial landscape.
+      </p>
+      <img src="https://img.capital.com/imgs/blocks/750xx/CPNINFOGRAPHICS_CRNARTICLES_CRTIMAGE_How_to_spot_a_stock_market_trend.png" alt="Investment Analysis" class="graphic" height="200"/>
+      
+      <h2>Performance Analysis</h2>
+      <p>
+         Our recommended investments have outperformed market benchmarks, as shown in our 5-year performance chart.
+      </p>
+      <canvas id="performanceChart" class="graphic" style="max-width: 100%; height: auto;"></canvas>
+      
+      <h2>Popular Investment Opportunities</h2>
+      <ul>
+        <li><strong>Apple (AAPL):</strong> Renowned for innovation and market resilience.</li>
+        <li><strong>Amazon (AMZN):</strong> Pioneer in e-commerce and cloud computing.</li>
+        <li><strong>Google (GOOGL):</strong> Dominant in digital advertising and tech innovation.</li>
+        <li><strong>Tesla (TSLA):</strong> Leader in electric vehicles and renewable energy.</li>
+        <li><strong>Vanguard 500 Index Fund (VFIAX):</strong> Mirrors S&P 500 performance.</li>
+        <li><strong>SPDR S&P 500 ETF Trust (SPY):</strong> Provides diversified S&P 500 exposure.</li>
+      </ul>
+      <img src="https://9to5mac.com/wp-content/uploads/sites/6/2020/01/AAPL-the-most-popular-stock-among-millennials.jpg?quality=82&strip=all" alt="Stock Portfolio" class="graphic" height="250"/>
+      
+      <h2>Our Philosophy</h2>
+      <p>
+         We are committed to transparency, ethical investing, and sustainable financial growth.
+      </p>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const labels = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+    const spData = [100, 110, 120, 130, 140];
+    const recommendedData = [
+      spData[0] * 1.5,
+      spData[1] * 1.9,
+      spData[2] * 1.9,
+      spData[3] * 2.1,
+      spData[4] * 2.1
+    ];
+    
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'S&P 500',
+          data: spData,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          tension: 0.1
+        },
+        {
+          label: 'Our Recommended Stock',
+          data: recommendedData,
+          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          tension: 0.1
+        }
+      ]
+    };
+    
+    const config = {
+      type: 'line',
+      data: data,
+      options: {
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Value' } },
+          x: { title: { display: true, text: 'Years' } }
+        }
+      }
+    };
+    
+    new Chart(document.getElementById('performanceChart'), config);
+  </script>
+</body>
+</html>
